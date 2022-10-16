@@ -1,0 +1,139 @@
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+    <h1>Contact</h1>
+    
+    <form method="post" action="send-email.php">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" required>
+        
+        <label for="email">email</label>
+        <input type="email" name="email" id="email" required>
+        
+        <label for="subject">Subject</label>
+        <input type="text" name="subject" id="subject" required>
+        
+        <label for="message">Message</label>
+        <textarea name="message" id="message" required></textarea>
+        
+        <br>
+        
+        <button>Send</button>
+    </form>
+    
+</body>
+</html>
+
+
+send-msg.php
+<?php
+$name = $_POST["name"];
+$email = $_POST["email"];
+$subject = $_POST["subject"];
+$message = $_POST["message"];
+
+//Load Composer's autoloader
+require 'vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
+
+$mail->isSMTP();
+$mail->SMTPAuth = true;
+
+$mail->Host = "smtp.gmail.com";
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+$mail->Port = 587;
+
+$mail->Username = "freelancerfarhad369@gmail.com";
+$mail->Password = "hqecqqvexcjjcwtk";
+
+$mail->setFrom($email, $name);
+$mail->addAddress("freelancerfarhad369@gmail.com",$email);
+<!-------$msg="select: ".$select."\n Name: ".$name."\n Email: ".$email."\n Phone: ".$phone."\n Date: ".$date."\n From: ".$from."\n To: ".$tos;
+------>
+$mail->Subject = $subject;
+$mail->Body = $message;
+
+$mail->send();
+echo "send";
+
+
+?>
+
+redirect page.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+    <h1>Contact</h1>
+    
+    <p>Thank you for your message.</p>
+    
+</body>
+</html>
+
+
+composer require phpmailer/phpmailer ///command run korte hobe
+
+
+<!----------image javascript-->
+---------------------------Show single Image JavaScript Code ------------------------
+    // Mail Thumbnail Image onload function javascript
+    <script>
+    function mainThamUrl(input){
+        if(input.files && input.files[0]){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                $('#mainThmb').attr('src',e.target.result).width(80).height(80);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+---------------------------Show Multi Image JavaScript Code ------------------------
+
+<script>
+ 
+  $(document).ready(function(){
+   $('#multiImg').on('change', function(){ //on file input change
+      if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
+      {
+          var data = $(this)[0].files; //this file data
+           
+          $.each(data, function(index, file){ //loop though each file
+              if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
+                  var fRead = new FileReader(); //new filereader
+                  fRead.onload = (function(file){ //trigger function on successful read
+                  return function(e) {
+                      var img = $('<img/>').addClass('thumb').attr('src', e.target.result) .width(80)
+                  .height(80); //create image element 
+                      $('#preview_img').append(img); //append image to output element
+                  };
+                  })(file);
+                  fRead.readAsDataURL(file); //URL representing the file's data.
+              }
+          });
+           
+      }else{
+          alert("Your browser doesn't support File API!"); //if File API is absent
+      }
+   });
+  });
+   
+  </script>
+================================= End Show Multi Image JavaScript Code. ====================
